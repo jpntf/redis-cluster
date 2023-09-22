@@ -11,34 +11,6 @@ volumes:
 
 services:
 
-  app:
-    container_name: express_app
-    image: express_app
-    build:
-      context: .
-    environment:
-      PORT: 4000
-      NODE_ENV: production
-      REDIS_CLUSTER_URLS: 'redis_1:6379,redis_2:6379,redis_3:6379,redis_4:6379,redis_5:6379,redis_6:6379'
-    volumes:
-      - .:/app
-      - node_modules:/app/node_modules
-    command: [ "npm", "run", "dev" ]
-    depends_on:
-      - redis_1
-      - redis_2
-      - redis_3
-      - redis_4
-      - redis_5
-      - redis_6
-      - cluster_initiator
-    ports:
-      - "4000:4000"
-    stdin_open: true
-    networks:
-      redis_cluster_net:
-        ipv4_address: 173.18.0.10
-
   # Here we have six Redis containers with Cluster mode enabled,
   # three of them will work as master nodes and each one of
   # will have a replica, so in case of failures, the replica becomes the master.
